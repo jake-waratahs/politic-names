@@ -11,5 +11,6 @@
         "js": ["content.js"],
         "run_at": "document_end"
     }],
+    "permissions": ["storage"],
     "manifest_version": 2
 }
