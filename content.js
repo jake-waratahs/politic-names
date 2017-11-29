@@ -108,8 +108,8 @@ function replaceGeorge(str) {
         return str.replace(/George Brandis/, 'Metadata aficionado George Brandis');
     }
 
-    if (matches(/General (George )?Brandis/, str)) {
-        return str.replace(/General (George )?Brandis/, 'General and metadata aficionado George Brandis');
+    if (matches(/General (George )?Brandis/i, str)) {
+        return str.replace(/General (George )?Brandis/i, 'General and metadata aficionado George Brandis');
     }
 
     return str.replace(/George Brandis/, 'metadata aficionado George Brandis');
@@ -126,7 +126,7 @@ function replaceJulie(str) {
     }
 
     if (matches(/affairs (Julie )?Bishop/i, str)) {
-        return str.replace(/affairs (Julie )?Bishop/i, 'affairs and local jogger Julie Bishop');
+        return str.replace(/affairs (Julie )?Bishop/i, 'Affairs and local jogger Julie Bishop');
     }
 
     return str.replace(/Julie Bishop/, 'local jogger Julie Bishop');
