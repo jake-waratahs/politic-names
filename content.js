@@ -6,6 +6,7 @@ const MALCOLM = /Turnbull/;
 const TONE = /Abbott/;
 const GEORGE = /Brandis/;
 const JULIE = /Bishop/;
+const SAM = /Dastyari/;
 
 const ALL_POLLIES = [
     DUTTON,
@@ -15,7 +16,20 @@ const ALL_POLLIES = [
     MALCOLM,
     TONE,
     GEORGE,
-    JULIE
+    JULIE,
+    SAM
+];
+
+const ids = [
+    "trump",
+    "dutton",
+    "bernardi",
+    "joyce",
+    "malcolm",
+    "tone",
+    "brandis",
+    "julie",
+    "sam"
 ];
 
 function matches(regex, str) {
@@ -132,6 +146,14 @@ function replaceJulie(str) {
     return str.replace(/Julie Bishop/, 'local jogger Julie Bishop');
 }
 
+function replaceSam(str) {
+    if (matches(/Senator (Sam )?Dastyari/, str)) {
+        return str.replace(/Senator (Sam )?Dastyari/, 'Senator and Chinese informant Sam Dastyari');
+    }
+
+    return str.replace(/Sam Dastyari/, 'Chinese informant Cory Bernardi');    
+}
+
 var treeWalker = document.createTreeWalker(
     document.body,
     NodeFilter.SHOW_TEXT,
@@ -143,33 +165,43 @@ var treeWalker = document.createTreeWalker(
     false
 );
 
+chrome.storage.sync.get(null, function(settings) {
+    ids.map(function(id) {
+        if (settings[id] == null) {
+            settings[id] = true;
+        }
+    });
 
-
-var n = treeWalker.nextNode();
-while (n) {
-    if (matches(DUTTON, n.nodeValue)) {
-        n.nodeValue = n.nodeValue.replace(/Peter Dutton/g, "Potato Dutton");    
+    var n = treeWalker.nextNode();
+    while (n) {
+        if (settings['dutton'] && matches(DUTTON, n.nodeValue)) {
+            n.nodeValue = n.nodeValue.replace(/Peter Dutton/g, "Potato Dutton");    
+        }
+        if (settings['trump'] && matches(TRUMP, n.nodeValue)) {
+           n.nodeValue = replaceTrump(n.nodeValue);    
+        }
+        if (settings['bernardi'] && matches(BERNARDI, n.nodeValue)) {
+            n.nodeValue = replaceBernardi(n.nodeValue);
+        }
+        if (settings['joyce'] && matches(BARNABY, n.nodeValue)) {
+            n.nodeValue = replaceBarnaby(n.nodeValue);
+        }
+        if (settings['malcolm'] && matches(MALCOLM, n.nodeValue)) {
+            n.nodeValue = replaceMalcolm(n.nodeValue);
+        }
+        if (settings['tone'] && matches(TONE, n.nodeValue)) {
+            n.nodeValue = replaceTony(n.nodeValue);
+        }
+        if (settings['brandis'] && matches(GEORGE, n.nodeValue)) {
+            n.nodeValue = replaceGeorge(n.nodeValue);
+        }
+        if (settings['julie'] && matches(JULIE, n.nodeValue)) {
+            n.nodeValue = replaceJulie(n.nodeValue);
+        }
+        if (settings['sam'] && matches(SAM, n.nodeValue)) {
+            n.nodeValue = replaceSam(n.nodeValue);
+        }
+       n = treeWalker.nextNode();
     }
-    if (matches(TRUMP, n.nodeValue)) {
-       n.nodeValue = replaceTrump(n.nodeValue);    
-    }
-    if (matches(BERNARDI, n.nodeValue)) {
-        n.nodeValue = replaceBernardi(n.nodeValue);
-    }
-    if (matches(BARNABY, n.nodeValue)) {
-        n.nodeValue = replaceBarnaby(n.nodeValue);
-    }
-    if (matches(MALCOLM, n.nodeValue)) {
-        n.nodeValue = replaceMalcolm(n.nodeValue);
-    }
-    if (matches(TONE, n.nodeValue)) {
-        n.nodeValue = replaceTony(n.nodeValue);
-    }
-    if (matches(GEORGE, n.nodeValue)) {
-        n.nodeValue = replaceGeorge(n.nodeValue);
-    }
-    if (matches(JULIE, n.nodeValue)) {
-        n.nodeValue = replaceJulie(n.nodeValue);
-    }
-   n = treeWalker.nextNode();
-}
+    chrome.storage.sync.set(settings);
+});

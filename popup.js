@@ -12,7 +12,6 @@ function toggle(key){
 
 
 chrome.storage.sync.get(null, function(items){
-    var newSettings = {};
 
     Object.keys(items).map(function(name) {
         var box = document.getElementById(name);
@@ -22,15 +21,9 @@ chrome.storage.sync.get(null, function(items){
     var boxes = document.getElementsByTagName('input');
 
     for (var i = 0; i < boxes.length; i++) {
-        if (items[boxes[i].id] == null) {
-            newSettings[boxes[i].id] = true;
-            boxes[i].checked = true;
-        }
         boxes[i].onclick = function(e){
             toggle(e.target.id);
         }
     }
-
-    chrome.storage.sync.set(newSettings);
 });
 
