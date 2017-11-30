@@ -151,7 +151,7 @@ function replaceSam(str) {
         return str.replace(/Senator (Sam )?Dastyari/, 'Senator and Chinese informant Sam Dastyari');
     }
 
-    return str.replace(/Sam Dastyari/, 'Chinese informant Cory Bernardi');    
+    return str.replace(/Sam Dastyari/, 'Chinese informant Sam Dastyari');    
 }
 
 var treeWalker = document.createTreeWalker(
