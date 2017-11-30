@@ -143,6 +143,8 @@ var treeWalker = document.createTreeWalker(
     false
 );
 
+
+
 var n = treeWalker.nextNode();
 while (n) {
     if (matches(DUTTON, n.nodeValue)) {

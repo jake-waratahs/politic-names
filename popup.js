@@ -26,7 +26,11 @@ chrome.storage.sync.get(null, function(items){
             newSettings[boxes[i].id] = true;
             boxes[i].checked = true;
         }
+        boxes[i].onclick = function(e){
+            toggle(e.target.id);
+        }
     }
 
     chrome.storage.sync.set(newSettings);
 });
+
